@@ -2,10 +2,10 @@ CHROME := chromium
 
 DIR    := url-bar-canonicalise
 
-build: $(DIR).crx
+build: $(DIR).crx $(DIR).xpi
 
 clean:
-	rm -f $(DIR).crx
+	rm -f $(DIR).crx $(DIR).xpi
 
 deepclean: clean
 	rm -f $(DIR).pem
@@ -16,3 +16,6 @@ $(DIR).pem:
 
 $(DIR).crx: $(DIR).pem $(wildcard $(DIR)/*)
 	$(CHROME) --pack-extension=$(DIR) --pack-extension-key=$<
+
+$(DIR).xpi: $(wildcard $(DIR)/*)
+	cd "$(DIR)" && zip -r ../$@ *
